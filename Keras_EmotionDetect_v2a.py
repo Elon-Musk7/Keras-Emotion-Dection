@@ -134,3 +134,8 @@ print ("Test Accuracy = " + str(preds[1]))
 print()
 print ("Loss2 = " + str(preds2[0]))
 print ("Test Accuracy 2 = " + str(preds2[1]))
+
+
+happyModel.summary()
+plot_model(happyModel, to_file='HappyModel.png')
+SVG(model_to_dot(happyModel).create(prog='dot', format='svg'))
