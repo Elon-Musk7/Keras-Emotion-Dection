@@ -78,14 +78,23 @@ def HappyModel(input_shape):
     X = ZeroPadding2D((3, 3))(X_input)
     
     # CONV -> BN -> RELU Block applied to X
-    X = Conv2D()
-    Conv2D(32, (7, 7), strides = (1, 1), name = 'conv0')(X)
+    X = Conv2D(32, (7, 7), strides = (1, 1), name = 'conv0')(X)
     X = BatchNormalization(axis = 3, name = 'bn0')(X)
     X = Activation('relu')(X)
     
     
     # MAXPOOL 
-    X = MaxPooling2D((2, 2), name='max_pool')(x)
+    X = MaxPooling2D((2, 2), name='max_pool')(X)
+ 
+   # CONV -> BN -> RELU Block applied to X
+    X = Conv2D(32, (7, 7), strides = (1, 1), name = 'conv1')(X)
+    X = BatchNormalization(axis = 3, name = 'bn1')(X)
+    X = Activation('relu')(X)
+    
+    
+    # MAXPOOL 
+    X = MaxPooling2D((2, 2), name='max_pool2')(X)    
+
     
     # FLATTEN X (means convert it to a vector) + FULLYCONNECTED
     X = Flatten()(X)
@@ -97,3 +106,31 @@ def HappyModel(input_shape):
     ### END CODE HERE ###
     
     return model
+
+
+### START CODE HERE ### (1 line)
+happyModel = HappyModel(X_train.shape[1:])
+### END CODE HERE ###
+
+
+### START CODE HERE ### (1 line)
+happyModel.compile(optimizer='adam', loss='binary_crossentropy', metrics=["accuracy"])  
+### END CODE HERE ###
+
+
+### START CODE HERE ### (1 line)
+happyModel.fit(X_train,Y_train,epochs=100, batch_size=5)
+### END CODE HERE ###
+
+
+### START CODE HERE ### (1 line)
+preds = happyModel.predict(X_test)
+preds2 = happyModel.evaluate(x=X_test, y=Y_test)
+### END CODE HERE ###
+print()
+print ("Loss = " + str(preds[0]))
+print ("Test Accuracy = " + str(preds[1]))
+
+print()
+print ("Loss2 = " + str(preds2[0]))
+print ("Test Accuracy 2 = " + str(preds2[1]))
